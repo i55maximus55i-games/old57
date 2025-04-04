@@ -5,17 +5,20 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.utils.Disposable
 import com.badlogic.gdx.utils.viewport.ScreenViewport
+import de.eskalon.commons.screen.ManagedScreen
 import ktx.actors.stage
 import ktx.app.KtxScreen
 import ktx.assets.disposeSafely
 import ru.codemonkeystudio.old57.Main
 
-open class MyScreen : KtxScreen {
+open class MyScreen : ManagedScreen() {
 
     val context = Main.context
 
     val spriteBatch: SpriteBatch = context.inject()
-    val stage = stage(viewport = ScreenViewport())
+    val stage = stage(viewport = ScreenViewport()).apply {
+        addInputProcessor(this)
+    }
 
     val engine = PooledEngine()
 
@@ -29,13 +32,6 @@ open class MyScreen : KtxScreen {
 
     override fun resize(width: Int, height: Int) {
         stage.viewport.update(width, height, true)
-    }
-
-    override fun show() {
-        Gdx.input.inputProcessor = stage
-    }
-    override fun hide() {
-        Gdx.input.inputProcessor = null
     }
 
     override fun dispose() {

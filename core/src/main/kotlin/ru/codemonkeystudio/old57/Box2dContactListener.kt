@@ -6,6 +6,9 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse
 import com.badlogic.gdx.physics.box2d.ContactListener
 import com.badlogic.gdx.physics.box2d.Manifold
 import ktx.ashley.has
+import ru.codemonkeystudio.old57.ecs.components.GroundSensorComponent
+import ru.codemonkeystudio.old57.ecs.components.JumpComponent
+import ru.codemonkeystudio.old57.ecs.components.jump
 
 class Box2dContactListener : ContactListener {
 
@@ -13,34 +16,23 @@ class Box2dContactListener : ContactListener {
         val entityA = contact.fixtureA.userData as Entity
         val entityB = contact.fixtureB.userData as Entity
 
-//        if (entityA.has(GroundSensorComponent.mapper)) {
-//            if (entityB.has(JumpComponent.mapper)) {
-//                entityB.jump!!.onGround = true
-//                entityB.jump!!.jumpCounter = 0
-//            }
-//        }
-//        if (entityA.has(WallSlideSensorColliderComponent.mapper) && entityB.has(WallSlideComponent.mapper)) {
-//            entityB.wallSlide?.apply {
-//                onWall = true
-//                dir = entityA.wallSlideSensor?.dir ?: 0f
-//            }
-//        }
+        if (entityA.has(GroundSensorComponent.mapper)) {
+            if (entityB.has(JumpComponent.mapper)) {
+                entityB.jump!!.onGround = true
+                entityB.jump!!.jumpCounter = 0
+            }
+        }
     }
     override fun endContact(contact: Contact) {
         val entityA = contact.fixtureA.userData as Entity
         val entityB = contact.fixtureB.userData as Entity
 
-//        if (entityA.has(GroundSensorComponent.mapper)) {
-//            if (entityB.has(JumpComponent.mapper)) {
-//                entityB.jump!!.onGround = false
-//                entityB.jump!!.jumpCounter = 1
-//            }
-//        }
-//        if (entityA.has(WallSlideSensorColliderComponent.mapper) && entityB.has(WallSlideComponent.mapper)) {
-//            entityB.wallSlide?.apply {
-//                onWall = false
-//            }
-//        }
+        if (entityA.has(GroundSensorComponent.mapper)) {
+            if (entityB.has(JumpComponent.mapper)) {
+                entityB.jump!!.onGround = false
+                entityB.jump!!.jumpCounter = 1
+            }
+        }
     }
     override fun preSolve(contact: Contact, oldManifold: Manifold) {}
     override fun postSolve(contact: Contact, impulse: ContactImpulse) {}

@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.utils.viewport.ExtendViewport
 import ktx.ashley.entity
-import ktx.ashley.with
+import ktx.assets.disposeSafely
 import ktx.box2d.createWorld
 import ktx.math.vec2
 import ru.codemonkeystudio.kek.MyScreen
@@ -44,9 +44,9 @@ class GameScreen : MyScreen() {
             // Логика игроков
             addSystem(UpdatePlayerControllersSystem())
             addSystem(UpdateStateMachineSystem())
-//            // Движение
+            // Движение
             addSystem(PlayerMoveSystem())
-//            addSystem(PlayerJumpSystem())
+            addSystem(PlayerJumpSystem())
 
             // Обновление позиций
             addSystem(Box2dUpdateWorldSystem(world))
@@ -75,7 +75,7 @@ class GameScreen : MyScreen() {
 
     override fun dispose() {
         super.dispose()
-        world.dispose()
+        world.disposeSafely()
     }
 
 }

@@ -7,18 +7,19 @@ import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.BodyDef
 import com.badlogic.gdx.physics.box2d.World
 import ktx.ashley.entity
-import ktx.ashley.with
 import ktx.assets.getAsset
 import ktx.box2d.body
 import ktx.box2d.box
+import ktx.math.vec2
 import ru.codemonkeystudio.old57.Main
 import ru.codemonkeystudio.old57.ecs.components.Box2dBodyComponent
+import ru.codemonkeystudio.old57.ecs.components.GroundSensorComponent
 import ru.codemonkeystudio.old57.ecs.components.SpriteComponent
 import ru.codemonkeystudio.old57.utils.ppm
 
 fun createPlatform(engine: PooledEngine, world: World, position: Vector2, size: Vector2) {
-    val entity = engine.entity()
-    entity.apply {
+    val platformEntity = engine.entity()
+    platformEntity.apply {
         add(Box2dBodyComponent().apply {
             body = world.body {
                 type = BodyDef.BodyType.StaticBody
@@ -26,7 +27,7 @@ fun createPlatform(engine: PooledEngine, world: World, position: Vector2, size: 
 
                 box(width = size.x / world.ppm, height = size.y / world.ppm) {
                     friction = 0f
-                    userData = entity
+                    userData = platformEntity
                 }
             }
         })
@@ -38,5 +39,20 @@ fun createPlatform(engine: PooledEngine, world: World, position: Vector2, size: 
                 setCenter(position.x, position.y)
             }
         })
+    }
+    val groundSensorEntity = engine.entity()
+    groundSensorEntity.apply {
+        add(Box2dBodyComponent().apply {
+            body = world.body {
+                type = BodyDef.BodyType.StaticBody
+                this.position.set(position).scl(1f / world.ppm)
+
+                box(width = (size.x - 1f) / world.ppm, height = 1f / world.ppm, position = vec2(0f, size.y / 2f / world.ppm)) {
+                    isSensor = true
+                    userData = groundSensorEntity
+                }
+            }
+        })
+        add(GroundSensorComponent())
     }
 }

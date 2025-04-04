@@ -36,7 +36,7 @@ fun createPlayer(engine: PooledEngine, world: World, position: Vector2) {
 
         add(PlayerControllerComponent())
 
-//        add(JumpComponent())
+        add(JumpComponent())
         add(MoveComponent())
         add(StateComponent().apply {
             stateMachine.owner = entity
