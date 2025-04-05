@@ -11,6 +11,7 @@ import ru.codemonkeystudio.kek.MyScreen
 import ru.codemonkeystudio.old57.Box2dContactListener
 import ru.codemonkeystudio.old57.ecs.components.SpriteComponent
 import ru.codemonkeystudio.old57.ecs.entities.createPlatform
+import ru.codemonkeystudio.old57.ecs.entities.enemies.dummy.createDummyEnemy
 import ru.codemonkeystudio.old57.ecs.entities.player.createPlayer
 import ru.codemonkeystudio.old57.ecs.systems.*
 
@@ -48,9 +49,13 @@ class GameScreen : MyScreen() {
             addSystem(PlayerMoveSystem())
             addSystem(PlayerJumpSystem())
 
+            // Атака
+            addSystem(PlayerAttackSystem())
+
             // Обновление позиций
             addSystem(Box2dUpdateWorldSystem(world))
             addSystem(UpdateTransformByBox2dSystem(world))
+            addSystem(UpdateHitHurtBoxColliders())
 
             // Обновление спрайтов
             addSystem(UpdateSpritePositionSystem())
@@ -69,6 +74,10 @@ class GameScreen : MyScreen() {
             })
         }
         createPlatform(engine, world, position = vec2(640f, 100f), size = vec2(400f, 50f))
+        createPlatform(engine, world, position = vec2(1040f, 150f), size = vec2(400f, 50f))
+        createPlatform(engine, world, position = vec2(240f, 250f), size = vec2(400f, 50f))
+
+        createDummyEnemy(engine, world, position = vec2(720f, 250f))
 
         createPlayer(engine, world, position = vec2(640f, 250f))
     }

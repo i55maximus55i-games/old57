@@ -19,6 +19,7 @@ import ktx.inject.Context
 import ktx.inject.register
 import ru.codemonkeystudio.kek.MyScreen
 import ru.codemonkeystudio.kek.paperTransitionShader
+import ru.codemonkeystudio.kek.paperTransition___1_0
 import ru.codemonkeystudio.old57.screens.GameScreen
 import ru.codemonkeystudio.service.MyService
 
@@ -49,7 +50,7 @@ class Main(val service: MyService = MyService()) : ManagedGame<MyScreen, ScreenT
         }
 
 
-        screenManager.pushScreen(GameScreen(), GLTransitionsShaderTransition(paperTransitionShader, 4f))
+        screenManager.pushScreen(GameScreen(), paperTransition___1_0)
 
 //        addScreen(FirstScreen())
 //        addScreen(GameScreen())
@@ -65,21 +66,4 @@ class Main(val service: MyService = MyService()) : ManagedGame<MyScreen, ScreenT
         }
     }
 
-}
-
-class FirstScreen : KtxScreen {
-    private val image = Texture("logo.png".toInternalFile(), true).apply { setFilter(Linear, Linear) }
-    private val batch = SpriteBatch()
-
-    override fun render(delta: Float) {
-        clearScreen(red = 0.7f, green = 0.7f, blue = 0.7f)
-        batch.use {
-            it.draw(image, 100f, 160f)
-        }
-    }
-
-    override fun dispose() {
-        image.disposeSafely()
-        batch.disposeSafely()
-    }
 }

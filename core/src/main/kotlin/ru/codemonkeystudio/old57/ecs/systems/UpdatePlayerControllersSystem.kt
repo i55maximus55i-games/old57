@@ -22,6 +22,8 @@ class UpdatePlayerControllersSystem : IteratingSystem(allOf(PlayerControllerComp
 
             playerContoller.run = Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)
             playerContoller.jump = Gdx.input.isKeyPressed(Input.Keys.SPACE)
+
+            playerContoller.attack = Gdx.input.isKeyJustPressed(Input.Keys.W)
         }
     }
 

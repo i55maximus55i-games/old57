@@ -1,5 +1,7 @@
 package ru.codemonkeystudio.kek
 
+import de.eskalon.commons.screen.transition.impl.GLTransitionsShaderTransition
+
 val paperTransitionShader = "// author: Hewlett-Packard\n" +
     "// license: BSD 3 Clause\n" +
     "// Adapted by Sergey Kosarevsky from:\n" +
@@ -214,3 +216,10 @@ val paperTransitionShader = "// author: Hewlett-Packard\n" +
     "\n" +
     "        return antiAlias(color, cl, dist);\n" +
     "}\n"
+
+
+val paperTransition___0_5 = GLTransitionsShaderTransition(paperTransitionShader, 0.5f)
+val paperTransition___1_0 = GLTransitionsShaderTransition(paperTransitionShader, 0.5f)
+val paperTransition___1_5 = GLTransitionsShaderTransition(paperTransitionShader, 0.5f)
+val paperTransition___2_0 = GLTransitionsShaderTransition(paperTransitionShader, 0.5f)
+val paperTransition___2_5 = GLTransitionsShaderTransition(paperTransitionShader, 0.5f)

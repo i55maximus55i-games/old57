@@ -1,18 +1,17 @@
-package ru.codemonkeystudio.old57.ecs.entities.player
+package ru.codemonkeystudio.old57.ecs.entities.enemies.dummy
 
 import com.badlogic.ashley.core.PooledEngine
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.BodyDef
 import com.badlogic.gdx.physics.box2d.World
 import ktx.ashley.entity
-import ktx.ashley.with
 import ktx.box2d.body
 import ktx.box2d.box
 import ru.codemonkeystudio.old57.ecs.components.*
-import ru.codemonkeystudio.old57.ecs.entities.player.states.IdleState
+import ru.codemonkeystudio.old57.ecs.entities.enemies.dummy.states.DummyIdleState
 import ru.codemonkeystudio.old57.utils.ppm
 
-fun createPlayer(engine: PooledEngine, world: World, position: Vector2) {
+fun createDummyEnemy(engine: PooledEngine, world: World, position: Vector2) {
     val entity = engine.entity()
     entity.apply {
         add(Box2dBodyComponent().apply {
@@ -34,19 +33,14 @@ fun createPlayer(engine: PooledEngine, world: World, position: Vector2) {
             sprite.setSize(80f, 80f)
         })
 
-        add(PlayerControllerComponent())
-
-        add(JumpComponent())
-        add(MoveComponent())
         add(StateComponent().apply {
             stateMachine.owner = entity
-            stateMachine.changeState(IdleState())
+            stateMachine.changeState(DummyIdleState())
         })
 
-        add(HurtSensorComponent().apply {
-            hurtBoxOffset.x = 20f
-            hurtBoxCollider.setSize(40f)
+        add(HurtSensorComponent())
+        add(HitSensorComponent().apply {
+            hitBoxCollider.setSize(40f, 60f)
         })
-        add(HitSensorComponent())
     }
 }
