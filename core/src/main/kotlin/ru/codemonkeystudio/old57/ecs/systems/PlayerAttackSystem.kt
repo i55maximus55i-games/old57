@@ -17,7 +17,7 @@ class PlayerAttackSystem : IteratingSystem(allOf(PlayerControllerComponent::clas
                 for (i in engine.getEntitiesFor(allOf(HitSensorComponent::class).get())) {
                     if (i == entity) continue
                     if (i[HitSensorComponent.mapper]!!.enabled && hurtSensorComponent.hurtBoxCollider.overlaps(i[HitSensorComponent.mapper]!!.hitBoxCollider)) {
-                        println("Attacked")
+                        i[HitSensorComponent.mapper]!!.damage += 1
                     }
                 }
             }

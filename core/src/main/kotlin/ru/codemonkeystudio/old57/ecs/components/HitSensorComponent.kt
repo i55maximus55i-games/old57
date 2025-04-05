@@ -12,6 +12,7 @@ class HitSensorComponent : Component {
     }
 
     var enabled = true
+    var damage = 0
 
     var hitBoxCollider = Rectangle()
 
