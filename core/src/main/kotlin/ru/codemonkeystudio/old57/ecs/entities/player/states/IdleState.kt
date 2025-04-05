@@ -33,15 +33,21 @@ class IdleState : State<Entity> {
         val box2d = entity.box2d
         val state = entity.state
         val jump = entity.jump
+        val hit = entity.hit
 
         if (box2d != null && state != null) {
             if (abs(box2d.body.linearVelocity.x) > 0.1f) {
                 state.stateMachine.changeState(WalkState())
             }
             if (jump != null) {
-//                if (jump.jumpCounter > 0) {
-//                    state.stateMachine.changeState(JumpState())
-//                }
+                if (jump.jumpCounter > 0) {
+                    state.stateMachine.changeState(JumpState())
+                }
+            }
+            if (hit != null) {
+                if (hit.damage > 0) {
+                    state.stateMachine.changeState(HurtState())
+                }
             }
         }
     }

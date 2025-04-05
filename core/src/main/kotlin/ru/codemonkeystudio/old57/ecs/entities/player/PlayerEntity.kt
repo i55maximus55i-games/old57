@@ -1,5 +1,6 @@
 package ru.codemonkeystudio.old57.ecs.entities.player
 
+import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.PooledEngine
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.physics.box2d.BodyDef
@@ -12,7 +13,7 @@ import ru.codemonkeystudio.old57.ecs.components.*
 import ru.codemonkeystudio.old57.ecs.entities.player.states.IdleState
 import ru.codemonkeystudio.old57.utils.ppm
 
-fun createPlayer(engine: PooledEngine, world: World, position: Vector2) {
+fun createPlayer(engine: PooledEngine, world: World, position: Vector2): Entity {
     val entity = engine.entity()
     entity.apply {
         add(Box2dBodyComponent().apply {
@@ -49,4 +50,6 @@ fun createPlayer(engine: PooledEngine, world: World, position: Vector2) {
         })
         add(HitSensorComponent())
     }
+
+    return entity
 }

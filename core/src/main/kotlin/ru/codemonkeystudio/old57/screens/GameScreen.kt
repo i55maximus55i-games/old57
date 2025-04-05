@@ -1,5 +1,8 @@
 package ru.codemonkeystudio.old57.screens
 
+import com.badlogic.ashley.core.Entity
+import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.utils.viewport.ExtendViewport
@@ -8,8 +11,11 @@ import ktx.assets.disposeSafely
 import ktx.box2d.createWorld
 import ktx.math.vec2
 import ru.codemonkeystudio.kek.MyScreen
+import ru.codemonkeystudio.kek.paperTransition___1_0
 import ru.codemonkeystudio.old57.Box2dContactListener
+import ru.codemonkeystudio.old57.Main
 import ru.codemonkeystudio.old57.ecs.components.SpriteComponent
+import ru.codemonkeystudio.old57.ecs.components.hit
 import ru.codemonkeystudio.old57.ecs.entities.createPlatform
 import ru.codemonkeystudio.old57.ecs.entities.enemies.dummy.createDummyEnemy
 import ru.codemonkeystudio.old57.ecs.entities.player.createPlayer
@@ -34,6 +40,10 @@ class GameScreen : MyScreen() {
         viewport.update(width, height, false)
         super.resize(width, height)
     }
+
+    // TEST
+    var playerEntity = Entity()
+    // TEST
 
     init {
         createSystems()
@@ -79,10 +89,18 @@ class GameScreen : MyScreen() {
 
         createDummyEnemy(engine, world, position = vec2(720f, 250f))
 
-        createPlayer(engine, world, position = vec2(640f, 250f))
+        playerEntity = createPlayer(engine, world, position = vec2(640f, 250f))
     }
 
-
+    override fun render(delta: Float) {
+        super.render(delta)
+        if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT_BRACKET)) {
+            playerEntity.hit!!.damage++
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT_BRACKET)) {
+            context.inject<Main>().screenManager.pushScreen(GameScreen(), paperTransition___1_0)
+        }
+    }
 
     override fun dispose() {
         super.dispose()

@@ -9,9 +9,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion
 import ktx.collections.gdxArrayOf
 import ru.codemonkeystudio.old57.ecs.components.animation
 import ru.codemonkeystudio.old57.ecs.components.hit
-import ru.codemonkeystudio.old57.ecs.components.state
 
-class DummyIdleState : State<Entity> {
+class DummyHurtState : State<Entity> {
 
     override fun enter(entity: Entity) {
         val animation = entity.animation
@@ -21,29 +20,21 @@ class DummyIdleState : State<Entity> {
             animation.timer = 0f
             animation.animation = Animation<TextureRegion>(
                 1f, gdxArrayOf(
-                    TextureRegion(Texture("players/2/stand/1.png"))
+                    TextureRegion(Texture("players/2/fly/1.png"))
                 )
             )
         }
         if (hit != null) {
-            hit.enabled = true
+            hit.enabled = false
+            hit.damage = 0
         }
     }
 
     override fun update(entity: Entity) {
-        val hit = entity.hit
-        val state = entity.state
-
-        if (hit != null && state != null) {
-            if (hit.damage > 0) {
-                state.stateMachine.changeState(DummyHurtState())
-            }
-        }
     }
 
-    override fun exit(entity: Entity) {}
-    override fun onMessage(entity: Entity, telegram: Telegram): Boolean {
+    override fun exit(entity: Entity?) {}
+    override fun onMessage(entity: Entity?, telegram: Telegram?): Boolean {
         return false
     }
-
 }

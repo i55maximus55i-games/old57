@@ -36,6 +36,7 @@ class WalkState : State<Entity> {
         val state = entity.state
         val move = entity.move
         val jump = entity.jump
+        val hit = entity.hit
 
         if (box2d != null && state != null) {
             if (abs(box2d.body.linearVelocity.x) < 0.1f) {
@@ -47,14 +48,15 @@ class WalkState : State<Entity> {
                 }
             }
             if (jump != null) {
-
+                if (jump.jumpCounter > 0) {
+                    state.stateMachine.changeState(JumpState())
+                }
             }
-//            else if (abs(box2d.body.linearVelocity.x) > move.moveWalkSpeed * 1.01f) {
-//                state.stateMachine.changeState(RunState())
-//            }
-//            if (jump.jumpCounter > 0) {
-//                state.stateMachine.changeState(JumpState())
-//            }
+            if (hit != null) {
+                if (hit.damage > 0) {
+                    state.stateMachine.changeState(HurtState())
+                }
+            }
         }
     }
 

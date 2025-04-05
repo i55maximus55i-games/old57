@@ -8,9 +8,8 @@ import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import ktx.collections.gdxArrayOf
 import ru.codemonkeystudio.old57.ecs.components.*
-import kotlin.math.abs
 
-class RunState : State<Entity> {
+class JumpState : State<Entity> {
     override fun enter(entity: Entity) {
         val animation = entity.animation
         val jump = entity.jump
@@ -19,36 +18,23 @@ class RunState : State<Entity> {
         if (animation != null) {
             animation.timer = 0f
             animation.animation = Animation<TextureRegion>(
-                0.1f,
-                gdxArrayOf(
-                    TextureRegion(Texture("players/1/run/1.png")),
-                    TextureRegion(Texture("players/1/run/2.png")),
-                    TextureRegion(Texture("players/1/run/3.png")),
-                    TextureRegion(Texture("players/1/run/4.png"))
-                ),
-                Animation.PlayMode.LOOP
+                0.12f, gdxArrayOf(
+                    TextureRegion(Texture("players/1/jump/1.png")),
+                    TextureRegion(Texture("players/1/jump/2.png"))
+                )
             )
         }
-        if (jump != null) jump.enabled = true
-        if (move != null) move.enabled = true
     }
 
     override fun update(entity: Entity) {
-        val box2d = entity.box2d
-        val state = entity.state
-        val move = entity.move
         val jump = entity.jump
+        val state = entity.state
         val hit = entity.hit
 
-        if (box2d != null && state != null) {
-            if (move != null) {
-                if (abs(box2d.body.linearVelocity.x) < move.moveWalkSpeed * 1.01f) {
-                    state.stateMachine.changeState(WalkState())
-                }
-            }
+        if (state != null) {
             if (jump != null) {
-                if (jump.jumpCounter > 0) {
-                    state.stateMachine.changeState(JumpState())
+                if (jump.onGround) {
+                    state.stateMachine.changeState(IdleState())
                 }
             }
             if (hit != null) {
@@ -63,5 +49,4 @@ class RunState : State<Entity> {
     override fun onMessage(entity: Entity, telegram: Telegram): Boolean {
         return false
     }
-
 }
