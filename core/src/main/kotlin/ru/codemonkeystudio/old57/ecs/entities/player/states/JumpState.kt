@@ -10,9 +10,13 @@ import ktx.collections.gdxArrayOf
 import ru.codemonkeystudio.old57.ecs.components.*
 
 class JumpState : State<Entity> {
+
+    var jumpCount = 0
+
     override fun enter(entity: Entity) {
         val animation = entity.animation
         val jump = entity.jump
+        val hurt = entity.hurt
         val move = entity.move
 
         if (animation != null) {
@@ -24,13 +28,27 @@ class JumpState : State<Entity> {
                 )
             )
         }
+
+        if (jump != null) {
+            jump.enabled = true
+            jumpCount = jump.jumpCounter
+        }
+        if (move != null) move.enabled = true
+        if (hurt != null) hurt.enabled = true
     }
 
     override fun update(entity: Entity) {
+        val animation = entity.animation
         val jump = entity.jump
         val state = entity.state
         val hit = entity.hit
 
+        if (animation != null && jump != null) {
+            if (jump.jumpCounter != jumpCount) {
+                jumpCount = jump.jumpCounter
+                animation.timer = 0f
+            }
+        }
         if (state != null) {
             if (jump != null) {
                 if (jump.onGround) {

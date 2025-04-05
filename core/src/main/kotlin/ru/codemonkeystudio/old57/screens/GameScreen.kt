@@ -1,6 +1,7 @@
 package ru.codemonkeystudio.old57.screens
 
 import com.badlogic.ashley.core.Entity
+import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input
 import com.badlogic.gdx.graphics.OrthographicCamera
@@ -12,10 +13,12 @@ import ktx.box2d.createWorld
 import ktx.math.vec2
 import ru.codemonkeystudio.kek.MyScreen
 import ru.codemonkeystudio.kek.paperTransition___1_0
+import ru.codemonkeystudio.kek.paperTransition___2_0
 import ru.codemonkeystudio.old57.Box2dContactListener
 import ru.codemonkeystudio.old57.Main
 import ru.codemonkeystudio.old57.ecs.components.SpriteComponent
 import ru.codemonkeystudio.old57.ecs.components.hit
+import ru.codemonkeystudio.old57.ecs.components.transform
 import ru.codemonkeystudio.old57.ecs.entities.createPlatform
 import ru.codemonkeystudio.old57.ecs.entities.enemies.dummy.createDummyEnemy
 import ru.codemonkeystudio.old57.ecs.entities.player.createPlayer
@@ -46,8 +49,8 @@ class GameScreen : MyScreen() {
     // TEST
 
     init {
-        createSystems()
         createEntities()
+        createSystems()
     }
 
     fun createSystems() {
@@ -66,10 +69,12 @@ class GameScreen : MyScreen() {
             addSystem(Box2dUpdateWorldSystem(world))
             addSystem(UpdateTransformByBox2dSystem(world))
             addSystem(UpdateHitHurtBoxColliders())
+            addSystem(FollowCameraSystem(camera, playerEntity.transform!!))
 
             // Обновление спрайтов
             addSystem(UpdateSpritePositionSystem())
             addSystem(UpdateAnimationsSystem())
+            addSystem(FlipMovingSpriteSystem())
 
             // Отрисовка игры
             addSystem(RenderSystem(spriteBatch, camera))
@@ -80,7 +85,7 @@ class GameScreen : MyScreen() {
         engine.entity().apply {
             add(SpriteComponent().apply {
                 sprite.setRegion(Texture("backdrop.png"))
-                sprite.setSize(1280f, 720f)
+                sprite.setSize(5760f, 3240f)
             })
         }
         createPlatform(engine, world, position = vec2(640f, 100f), size = vec2(400f, 50f))
@@ -92,13 +97,15 @@ class GameScreen : MyScreen() {
         playerEntity = createPlayer(engine, world, position = vec2(640f, 250f))
     }
 
+    var newScreen: GameScreen? = null
     override fun render(delta: Float) {
         super.render(delta)
         if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT_BRACKET)) {
             playerEntity.hit!!.damage++
         }
+        if (newScreen != null) context.inject<Main>().screenManager.pushScreen(newScreen, paperTransition___2_0)
         if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT_BRACKET)) {
-            context.inject<Main>().screenManager.pushScreen(GameScreen(), paperTransition___1_0)
+            newScreen = GameScreen()
         }
     }
 

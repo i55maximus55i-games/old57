@@ -12,6 +12,7 @@ class HurtSensorComponent : Component {
         val mapper = mapperFor<GroundSensorComponent>()
     }
 
+    var enabled = false
     var hurtValue = 1
     var hurtBoxOffset = vec2()
     var hurtBoxCollider = Rectangle()

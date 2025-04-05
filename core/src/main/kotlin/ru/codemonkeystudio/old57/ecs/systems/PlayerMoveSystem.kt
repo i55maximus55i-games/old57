@@ -5,6 +5,7 @@ import com.badlogic.ashley.systems.IteratingSystem
 import com.badlogic.gdx.math.MathUtils
 import ktx.ashley.allOf
 import ru.codemonkeystudio.old57.ecs.components.*
+import kotlin.math.abs
 
 class PlayerMoveSystem : IteratingSystem(allOf(Box2dBodyComponent::class, MoveComponent::class).get()) {
 
@@ -23,6 +24,7 @@ class PlayerMoveSystem : IteratingSystem(allOf(Box2dBodyComponent::class, MoveCo
                 acceleration = MathUtils.clamp(acceleration, -move.maxAcceleration, move.maxAcceleration)
                 box2d.body.applyForceToCenter(acceleration * mass, 0f, true)
             }
+            if (abs(box2d.body.linearVelocity.x) > 0.1f) move.direction = box2d.body.linearVelocity.x > 0f
         }
     }
 

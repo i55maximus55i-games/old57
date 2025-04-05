@@ -8,6 +8,7 @@ class MoveComponent : Component {
 
     var enabled = false
 
+    var direction = true
     var ppm = 60f
 
     var targetSpeed = 0f

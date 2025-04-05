@@ -14,6 +14,7 @@ class RunState : State<Entity> {
     override fun enter(entity: Entity) {
         val animation = entity.animation
         val jump = entity.jump
+        val hurt = entity.hurt
         val move = entity.move
 
         if (animation != null) {
@@ -31,6 +32,7 @@ class RunState : State<Entity> {
         }
         if (jump != null) jump.enabled = true
         if (move != null) move.enabled = true
+        if (hurt != null) hurt.enabled = true
     }
 
     override fun update(entity: Entity) {

@@ -16,6 +16,7 @@ class IdleState : State<Entity> {
         val animation = entity.animation
         val jump = entity.jump
         val move = entity.move
+        val hurt = entity.hurt
 
         if (animation != null) {
             animation.timer = 0f
@@ -27,6 +28,7 @@ class IdleState : State<Entity> {
         }
         if (jump != null) jump.enabled = true
         if (move != null) move.enabled = true
+        if (hurt != null) hurt.enabled = true
     }
 
     override fun update(entity: Entity) {

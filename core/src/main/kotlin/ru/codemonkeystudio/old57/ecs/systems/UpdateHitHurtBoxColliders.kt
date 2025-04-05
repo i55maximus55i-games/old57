@@ -15,7 +15,9 @@ class UpdateHitHurtBoxColliders : EntitySystem() {
             entity.hit!!.hitBoxCollider.setY(entity.transform!!.position.y - entity.hit!!.hitBoxCollider.height / 2f)
         }
         for (entity in engine.getEntitiesFor(familyHurt)) {
-            entity.hurt!!.hurtBoxCollider.setX(entity.transform!!.position.x - entity.hurt!!.hurtBoxCollider.width / 2f + entity.hurt!!.hurtBoxOffset.x)
+            val move = entity.move
+            val x = if (move != null && move.direction) 1f else -1f
+            entity.hurt!!.hurtBoxCollider.setX(entity.transform!!.position.x - entity.hurt!!.hurtBoxCollider.width / 2f + entity.hurt!!.hurtBoxOffset.x * x)
             entity.hurt!!.hurtBoxCollider.setY(entity.transform!!.position.y - entity.hurt!!.hurtBoxCollider.height / 2f + entity.hurt!!.hurtBoxOffset.y)
         }
     }

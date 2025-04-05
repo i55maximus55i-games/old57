@@ -39,10 +39,6 @@ fun createPlayer(engine: PooledEngine, world: World, position: Vector2): Entity 
 
         add(JumpComponent())
         add(MoveComponent())
-        add(StateComponent().apply {
-            stateMachine.owner = entity
-            stateMachine.changeState(IdleState())
-        })
 
         add(HealthComponent())
         add(HurtSensorComponent().apply {
@@ -50,6 +46,11 @@ fun createPlayer(engine: PooledEngine, world: World, position: Vector2): Entity 
             hurtBoxCollider.setSize(40f)
         })
         add(HitSensorComponent())
+
+        add(StateComponent().apply {
+            stateMachine.owner = entity
+            stateMachine.changeState(IdleState())
+        })
     }
 
     return entity

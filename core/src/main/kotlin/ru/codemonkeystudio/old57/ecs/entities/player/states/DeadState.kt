@@ -34,8 +34,7 @@ class DeadState : State<Entity> {
         }
     }
 
-    override fun update(entity: Entity) {
-    }
+    override fun update(entity: Entity) {}
 
     override fun exit(entity: Entity?) {}
     override fun onMessage(entity: Entity?, telegram: Telegram?): Boolean {
