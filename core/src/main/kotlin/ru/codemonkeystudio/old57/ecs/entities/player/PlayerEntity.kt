@@ -44,6 +44,7 @@ fun createPlayer(engine: PooledEngine, world: World, position: Vector2): Entity 
             stateMachine.changeState(IdleState())
         })
 
+        add(HealthComponent())
         add(HurtSensorComponent().apply {
             hurtBoxOffset.x = 20f
             hurtBoxCollider.setSize(40f)
