@@ -7,7 +7,9 @@ import com.badlogic.gdx.ai.msg.Telegram
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.TextureRegion
+import com.badlogic.gdx.math.MathUtils
 import ktx.collections.gdxArrayOf
+import ru.codemonkeystudio.old57.Main
 import ru.codemonkeystudio.old57.ecs.components.*
 
 class HurtState : State<Entity> {
@@ -21,12 +23,14 @@ class HurtState : State<Entity> {
         val hit = entity.hit
         val hurt = entity.hurt
         val health = entity.health
+        val box2d = entity.box2d
 
+        val texture = Texture("player.png")
         if (animation != null) {
             animation.timer = 0f
             animation.animation = Animation<TextureRegion>(
-                1f, gdxArrayOf(
-                    TextureRegion(Texture("players/1/fly/1.png"))
+                0.08f, gdxArrayOf(
+                    TextureRegion(texture, 0, 480, 60, 120)
                 )
             )
         }
@@ -41,8 +45,13 @@ class HurtState : State<Entity> {
             hit.damage = 0
         }
         if (hurt != null) hurt.enabled = false
+        if (box2d != null) {
+            box2d.body.setLinearVelocity(MathUtils.random(-6f, 6f), MathUtils.random(10f, 4f))
+        }
 
         stunTimer = 0f
+
+        Main.hurtsound.play()
 
     }
 

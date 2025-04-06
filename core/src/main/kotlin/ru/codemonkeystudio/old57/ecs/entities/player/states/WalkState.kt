@@ -17,15 +17,16 @@ class WalkState : State<Entity> {
         val hurt = entity.hurt
         val move = entity.move
 
+        val texture = Texture("player.png")
         if (animation != null) {
             animation.timer = 0f
             animation.animation = Animation<TextureRegion>(
-                0.1f,
-                gdxArrayOf(
-                    TextureRegion(Texture("players/1/walk/1.png")),
-                    TextureRegion(Texture("players/1/walk/2.png"))
-                ),
-                Animation.PlayMode.LOOP
+                0.25f, gdxArrayOf(
+                    TextureRegion(texture, 0, 120, 60, 120),
+                    TextureRegion(texture, 60, 120, 60, 120),
+                    TextureRegion(texture, 120, 120, 60, 120),
+                    TextureRegion(texture, 180, 120, 60, 120),
+                ), Animation.PlayMode.LOOP
             )
         }
         if (jump != null) jump.enabled = true

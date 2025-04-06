@@ -18,11 +18,15 @@ class DeadState : State<Entity> {
         val health = entity.health
         val box2d = entity.box2d
 
+        val texture = Texture("player.png")
         if (animation != null) {
             animation.timer = 0f
             animation.animation = Animation<TextureRegion>(
-                1f, gdxArrayOf(
-                    TextureRegion(Texture("players/1/fuckingdead/1.png"))
+                0.35f, gdxArrayOf(
+                    TextureRegion(texture, 0, 600, 120, 120),
+                    TextureRegion(texture, 120, 600, 120, 120),
+                    TextureRegion(texture, 240, 600, 120, 120),
+                    TextureRegion(texture, 360, 600, 120, 120),
                 )
             )
         }

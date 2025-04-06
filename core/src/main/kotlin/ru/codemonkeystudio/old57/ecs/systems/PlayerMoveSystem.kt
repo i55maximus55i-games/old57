@@ -13,10 +13,17 @@ class PlayerMoveSystem : IteratingSystem(allOf(Box2dBodyComponent::class, MoveCo
         val box2d = entity.box2d
         val move = entity.move
         val playerController = entity.playerController
+        val enemyWalkBorder = entity.border
 
-        if (box2d != null && move != null && playerController != null) {
+        if (box2d != null && move != null) {
             if (move.enabled) {
-                move.targetSpeed = playerController.move * if (playerController.run) move.moveRunSpeed else move.moveWalkSpeed
+                move.targetSpeed = 0f
+                if (playerController != null) {
+                    move.targetSpeed = playerController.move * if (playerController.run) move.moveRunSpeed else move.moveWalkSpeed
+                }
+                if (enemyWalkBorder != null) {
+                    move.targetSpeed = move.moveWalkSpeed * if(enemyWalkBorder.dir) 1f else -1f
+                }
 
                 val dt = if (deltaTime < MathUtils.FLOAT_ROUNDING_ERROR) 0.25f else deltaTime
                 val mass = box2d.body.mass

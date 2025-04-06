@@ -18,12 +18,15 @@ class IdleState : State<Entity> {
         val move = entity.move
         val hurt = entity.hurt
 
+        val texture = Texture("player.png")
         if (animation != null) {
             animation.timer = 0f
             animation.animation = Animation<TextureRegion>(
-                1f, gdxArrayOf(
-                    TextureRegion(Texture("players/1/idle/1.png"))
-                )
+                0.5f, gdxArrayOf(
+                    TextureRegion(texture, 0, 0, 60, 120),
+                    TextureRegion(texture, 60, 0, 60, 120),
+                    TextureRegion(texture, 120, 0, 60, 120),
+                ), Animation.PlayMode.LOOP
             )
         }
         if (jump != null) jump.enabled = true

@@ -7,36 +7,41 @@ import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import ktx.collections.gdxArrayOf
-import ru.codemonkeystudio.old57.ecs.components.animation
-import ru.codemonkeystudio.old57.ecs.components.hit
-import ru.codemonkeystudio.old57.ecs.components.state
+import ru.codemonkeystudio.old57.ecs.components.*
+import ru.codemonkeystudio.old57.utils.ppm
 
 class DummyIdleState : State<Entity> {
 
     override fun enter(entity: Entity) {
         val animation = entity.animation
         val hit = entity.hit
+        val move = entity.move
 
+        val texture = Texture("enemy.png")
         if (animation != null) {
             animation.timer = 0f
             animation.animation = Animation<TextureRegion>(
-                1f, gdxArrayOf(
-                    TextureRegion(Texture("players/2/stand/1.png"))
-                )
+                0.4f, gdxArrayOf(
+                    TextureRegion(texture, 0, 0, 60, 60),
+                    TextureRegion(texture, 60, 0, 60, 60),
+                ), Animation.PlayMode.LOOP
             )
         }
-        if (hit != null) {
-            hit.enabled = true
-        }
+
+        if (move != null) move.enabled = true
     }
 
     override fun update(entity: Entity) {
         val hit = entity.hit
         val state = entity.state
+        val border = entity.border
+        val body = entity.box2d
 
-        if (hit != null && state != null) {
-            if (hit.damage > 0) {
-                state.stateMachine.changeState(DummyHurtState())
+        if (border != null && body != null) {
+            if (border.dir) {
+                if (border.right < body.body.position.x * body.body.world.ppm) border.dir = false
+            } else {
+                if (border.left > body.body.position.x * body.body.world.ppm) border.dir = true
             }
         }
     }

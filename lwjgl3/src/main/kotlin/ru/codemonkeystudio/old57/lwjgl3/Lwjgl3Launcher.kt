@@ -2,6 +2,7 @@
 
 package ru.codemonkeystudio.old57.lwjgl3
 
+import com.badlogic.gdx.Graphics
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration
 import ru.codemonkeystudio.old57.Main
@@ -23,7 +24,8 @@ fun main() {
         //// useful for testing performance, but can also be very stressful to some hardware.
         //// You may also need to configure GPU drivers to fully disable Vsync; this can cause screen tearing.
 
-        setWindowedMode(1280, 720)
+//        setWindowedMode(1280, 720)
+        setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode())
         //// You can change these files; they are in lwjgl3/src/main/resources/ .
         //// They can also be loaded from the root of assets/ .
         setWindowIcon(*(arrayOf(128, 64, 32, 16).map { "libgdx$it.png" }.toTypedArray()))

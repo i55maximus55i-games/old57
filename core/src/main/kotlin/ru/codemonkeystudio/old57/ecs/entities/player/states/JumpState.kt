@@ -19,12 +19,14 @@ class JumpState : State<Entity> {
         val hurt = entity.hurt
         val move = entity.move
 
+        val texture = Texture("player.png")
         if (animation != null) {
             animation.timer = 0f
             animation.animation = Animation<TextureRegion>(
-                0.12f, gdxArrayOf(
-                    TextureRegion(Texture("players/1/jump/1.png")),
-                    TextureRegion(Texture("players/1/jump/2.png"))
+                0.08f, gdxArrayOf(
+                    TextureRegion(texture, 0, 360, 60, 120),
+                    TextureRegion(texture, 60, 360, 60, 120),
+                    TextureRegion(texture, 120, 360, 60, 120),
                 )
             )
         }

@@ -15,7 +15,7 @@ class FlipMovingSpriteSystem : IteratingSystem(allOf(SpriteComponent::class, Mov
         val sprite = entity.spriteComponent
 
         if (move != null && sprite != null) {
-            sprite.sprite.setFlip(move.direction, false)
+            sprite.sprite.setFlip(!move.direction, false)
         }
     }
 

@@ -1,5 +1,6 @@
 package ru.codemonkeystudio.old57.ecs.entities
 
+import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.core.PooledEngine
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.Texture
@@ -17,7 +18,7 @@ import ru.codemonkeystudio.old57.ecs.components.GroundSensorComponent
 import ru.codemonkeystudio.old57.ecs.components.SpriteComponent
 import ru.codemonkeystudio.old57.utils.ppm
 
-fun createPlatform(engine: PooledEngine, world: World, position: Vector2, size: Vector2) {
+fun createPlatform(engine: PooledEngine, world: World, position: Vector2, size: Vector2): Entity {
     val platformEntity = engine.entity()
     platformEntity.apply {
         add(Box2dBodyComponent().apply {
@@ -31,14 +32,14 @@ fun createPlatform(engine: PooledEngine, world: World, position: Vector2, size: 
                 }
             }
         })
-        add(SpriteComponent().apply {
-            sprite.apply {
-                texture = Main.context.inject<AssetManager>().getAsset<Texture>("1.png")
-                setRegion(texture)
-                setSize(size.x, size.y)
-                setCenter(position.x, position.y)
-            }
-        })
+//        add(SpriteComponent().apply {
+//            sprite.apply {
+//                texture = Main.context.inject<AssetManager>().getAsset<Texture>("1.png")
+//                setRegion(texture)
+//                setSize(size.x, size.y)
+//                setCenter(position.x, position.y)
+//            }
+//        })
     }
     val groundSensorEntity = engine.entity()
     groundSensorEntity.apply {
@@ -55,4 +56,5 @@ fun createPlatform(engine: PooledEngine, world: World, position: Vector2, size: 
         })
         add(GroundSensorComponent())
     }
+    return platformEntity
 }

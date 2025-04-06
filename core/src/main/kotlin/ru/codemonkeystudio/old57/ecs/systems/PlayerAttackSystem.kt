@@ -4,25 +4,22 @@ import com.badlogic.ashley.core.Entity
 import com.badlogic.ashley.systems.IteratingSystem
 import ktx.ashley.allOf
 import ktx.ashley.get
+import ru.codemonkeystudio.old57.Main
 import ru.codemonkeystudio.old57.ecs.components.*
 import ru.codemonkeystudio.old57.ecs.entities.player.states.PunchState
+import ru.codemonkeystudio.old57.screens.GameScreen
 
-class PlayerAttackSystem : IteratingSystem(allOf(PlayerControllerComponent::class, HurtSensorComponent::class).get()) {
+class PlayerAttackSystem : IteratingSystem(allOf(HurtSensorComponent::class).get()) {
 
     override fun processEntity(entity: Entity, deltaTime: Float) {
-        val playerController = entity.playerController
         val hurtSensorComponent = entity.hurt
-        val state = entity.state
 
-        if (playerController != null && hurtSensorComponent != null) {
-            if (hurtSensorComponent.enabled && playerController.attack) {
-                if (state != null) {
-                    state.stateMachine.changeState(PunchState())
-                }
+        if (hurtSensorComponent != null) {
+            if (hurtSensorComponent.enabled) {
                 for (i in engine.getEntitiesFor(allOf(HitSensorComponent::class).get())) {
                     if (i == entity) continue
-                    if (i[HitSensorComponent.mapper]!!.enabled && hurtSensorComponent.hurtBoxCollider.overlaps(i[HitSensorComponent.mapper]!!.hitBoxCollider)) {
-                        i[HitSensorComponent.mapper]!!.damage += 1
+                    if (i.hit!!.enabled && hurtSensorComponent.hurtBoxCollider.overlaps(i.hit!!.hitBoxCollider)) {
+                        (Main.context.inject<Main>().screenManager.currentScreen as GameScreen).playerEntity.hit!!.damage++
                     }
                 }
             }
